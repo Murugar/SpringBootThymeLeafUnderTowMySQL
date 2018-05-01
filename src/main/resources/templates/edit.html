@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+     <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/main.css"/>
+</head>
+<body>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            
+            <!-- Edit form -->
+            <form id="edit" th:object="${user}" th:action="@{/user}" method="post">
+                
+                <div class="panel panel-primary">
+                    
+                    <div class="panel-heading">
+                        <h2 class="panel-title">
+                            <span class="glyphicon glyphicon-user" aria-hidden="true"></span> USER
+                        </h2>
+                    </div>
+                    
+                    <div class="panel-body">
+                        
+                        <input th:field="*{id}" class="form-control" type="hidden" id="id" name="id"/>
+                        
+                        <div class="row">
+                            <!-- User name -->
+                            <div class="form-group col-sm-6">
+                                <label for="name">User name</label>
+                                <input th:field="*{name}" type="text" class="form-control" id="name" name="name"
+                                       placeholder="User name"/>
+                            </div>
+                            
+                            <!-- Email -->
+                            <div class="form-group col-sm-6">
+                                <label for="email">Email address</label>
+                                <input th:field="*{email}" type="email" class="form-control" id="email" name="enail"
+                                       placeholder="Email"/>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <!-- Password -->
+                            <div class="form-group col-sm-6">
+                                <label for="password">Password</label>
+                                <input th:field="*{password}" type="password" class="form-control" id="password"
+                                       name="password"
+                                       placeholder="Password"/>
+                            </div>
+                            
+                            <!-- Role -->
+                            <div class="form-group col-sm-6">
+                                <label for="role">Role</label>
+                                <select th:field="*{role}" class="form-control" id="role" name="role">
+                                    <option th:value="ROLE_USER">ROLE_USER</option>
+                                    <option th:value="ROLE_ADMIN">ROLE_ADMIN</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <!-- Registered -->
+                            <div class="form-group col-sm-6">
+                                <label for="registered">Registered</label>
+                                <input
+                                        th:readonly="true"
+                                        th:field="*{registered}"
+                                        type="text" class="form-control" id="registered" name="registered"
+                                        placeholder="Registered"/>
+                            </div>
+                            
+                            <!-- Enabled -->
+                            <div class="checkbox col-sm-6">
+                                <label>
+                                    <input th:checked="*{enabled}" type="checkbox" th:field="*{enabled}" id="enabled"
+                                           name="enabled"/> Enabled
+                                </label>
+                            </div>
+                        
+                        </div>
+                    
+                    </div>
+                    
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="btn-toolbar">
+                                <span class="btn-toolbar pull-right" role="toolbar">
+                                    <button type="submit" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> Save
+                                    </button>
+                                    <a class="btn btn-default" th:classappend="${user.id == null} ? 'hidden'"
+                                       th:href="${'/user/delete/' + user.id}">
+                                       <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>  Delete
+                                    </a>
+                                    <button type="reset" class="btn btn-default" onclick="window.open('/','_self')">
+                                        <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>  Cancel
+                                    </button>
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+                
+                </div>
+            
+            </form>
+        
+        </div>
+    </div>
+</div>
+<!--/*/ <th:block th:include="parts/common :: footer"></th:block> /*/-->
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="/main.css"/>
+    <title>Spring Boot Thymeleaf</title>
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="panel panel-default">
+        
+        <div class="panel-heading">
+            <h1 class="panel-title text-uppercase">
+                <span class="glyphicon glyphicon-user"></span> Users
+                <a th:href="${'/user'}" class="btn btn-primary btn-xs pull-right" style="color: white">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New user
+                </a>
+            </h1>
+        </div>
+        
+        <div class="panel-body">
+            
+            <!-- User table -->
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>User name</th>
+                    <th>Email</th>
+                    <th class="hidden-xs">Registered</th>
+                    <th>Role</th>
+                </tr>
+                </thead>
+                <tr
+                        th:class="${user.enabled} ? ${user.role} : 'disabled'"
+                        th:each="user : ${users}" th:onclick="|window.open('${'/user/' + user.id}', '_self')|"
+                >
+                    <td data-label="User name" th:text="${user.name}">Name</td>
+                    <td data-label="User email" th:text="${user.email}">Email</td>
+                    <td class="hidden-xs" data-label="Registered" th:text="${{user.registered}}">Registered</td>
+                    <td data-label="User role" th:text="${user.role}">Role</td>
+                </tr>
+            </table>
+    
+            <!-- Pagination-->
+            <nav>
+                <ul class="pagination pagination-sm">
+                    <li th:each="i : ${#numbers.sequence(0, (totalPages > 0) ? totalPages-1 : 0)}"
+                        th:class="${(current == i)}? 'active'" th:classappend="${totalPages lt 2}? 'hidden'">
+                        
+                        <a th:href="(${query} != null) ? @{/(page=${i}, q=${query})} : @{/(page=${i})}">
+                            <span th:text="${i}"></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        
+        <!-- Filter -->
+        <div class="panel-footer">
+            <form action="/" method="get">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="input-group input-group-sm">
+                            
+                            <span class="input-group-addon" id="sizing-addon3">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </span>
+                            <input th:value="${query}" id="query" name="q" type="text" class="form-control" aria-describedby="sizing-addon3"
+                                   placeholder="Type the part of User name or email to search and hit 'Enter'"/>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <button type="submit" class="btn btn-primary btn-sm">Search (Enter)</button>
+                        <a href="/" class="btn btn-default btn-sm">Reset (Esc)</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    
+    </div>
+
+</div>
+
+</body>
+</html>
